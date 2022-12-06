@@ -1,3 +1,5 @@
+const UserStorage = require("../../models/UserStorage");
+
 const output = {
   home: (req, res) => {
     res.render("./home/index");
@@ -8,29 +10,25 @@ const output = {
   },
 };
 
-const user = {
-  id: ["wns9296", "wnswns012"],
-  pw: ["1234", "1234"],
-};
 const process = {
   login: (req, res) => {
     const id = req.body.id,
       pw = req.body.pw;
     console.log(id, pw);
 
-    if (user.id.includes(id)) {
-      const idx = user.id.indexOf(id);
-      if (user.pw[idx] === pw) {
-        return res.json({
-          success: true,
-        });
+    const users = UserStorage.getUsers("id", "pw");
+
+    const response = {};
+    if (users.id.includes(id)) {
+      const idx = users.id.indexOf(id);
+      if (users.pw[idx] === pw) {
+        response.success = true;
+        return res.json(response);
       }
     }
-
-    return res.json({
-      success: false,
-      msg: "로그인에 실패하셨습니다.",
-    });
+    response.success = false;
+    response.msg = "로그인에 실패하셨습니다.";
+    return res.json(response);
   },
 };
 
