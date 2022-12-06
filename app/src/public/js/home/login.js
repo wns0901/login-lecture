@@ -21,10 +21,6 @@ function login() {
     },
     body: JSON.stringify(req),
   })
-    .then((result) => {
-      console.log("result", result);
-    })
-    .catch((reason) => {
-      console.log("reason", reason);
-    });
+    .then((res) => res.json())
+    .then(console.log);
 }

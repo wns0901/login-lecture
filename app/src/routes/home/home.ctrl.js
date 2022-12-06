@@ -17,6 +17,20 @@ const process = {
     const id = req.body.id,
       pw = req.body.pw;
     console.log(id, pw);
+
+    if (user.id.includes(id)) {
+      const idx = user.id.indexOf(id);
+      if (user.pw[idx] === pw) {
+        return res.json({
+          success: true,
+        });
+      }
+    }
+
+    return res.json({
+      success: false,
+      msg: "로그인에 실패하셨습니다.",
+    });
   },
 };
 
