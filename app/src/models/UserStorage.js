@@ -1,14 +1,10 @@
 "use strict";
+const fs = require("fs");
 
 class UserStorage {
-  static #users = {
-    id: ["wns9296", "wnswns012"],
-    pw: ["1234", "1234"],
-    name: ["장준영", "이준영"],
-  };
-
+  
   static getUsers(...fields) {
-    const users = this.#users;
+    // const users = this.#users;
     const newUsers = fields.reduce((newUsers, field) => {
       if (users.hasOwnProperty(field)) {
         newUsers[field] = users[field];
@@ -20,17 +16,23 @@ class UserStorage {
   }
 
   static getuserInfo(id) {
-    const users = this.#users;
-    const idx = users.id.indexOf(id);
-    const userInfo = Object.keys(users).reduce((newUser, info) => {
-      newUser[info] = users[info][idx];
-      return newUser;
-    }, {});
+
+    fs.readFile("./src/db/users.json", (err, data) => {
+      if (err) throw err;
+      console.log(JSON.parse(data));
+      const users = JSON.parse(data);
+      const idx = users.id.indexOf(id);
+      const userInfo = Object.keys(users).reduce((newUser, info) => {
+        newUser[info] = users[info][idx];
+        return newUser;
+      }, {});
+    });
+   
     return userInfo;
   }
 
   static save(userInfo) {
-    const users = this.#users;
+    // const users = this.#users;
     users.id.push(userInfo.id);
     users.name.push(userInfo.name);
     users.pw.push(userInfo.pw);
