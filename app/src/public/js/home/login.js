@@ -12,8 +12,6 @@ function login() {
     pw: pw.value,
   };
 
-  console.log(req);
-
   fetch("/login", {
     method: "POST",
     headers: {
@@ -23,10 +21,12 @@ function login() {
   })
     .then((res) => res.json())
     .then((res) => {
+      console.log(res);
       if (res.success) {
         location.href = "/";
       } else {
         alert(res.msg);
+        location.href = "/login";
       }
     })
     .catch((err) => {

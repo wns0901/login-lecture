@@ -9,10 +9,9 @@ const id = document.querySelector("#id"),
 registerbtn.addEventListener("click", register);
 console.log("헬로 레지스터");
 
-
 function register() {
-  if(!id.value) return alert("아이디를 입력해주십시오.")
-  if(pw.value !== confirmPw.value) {
+  if (!id.value) return alert("아이디를 입력해주십시오.");
+  if (pw.value !== confirmPw.value) {
     return alert("비밀번호가 일치하지 않습니다.");
   }
 
@@ -20,7 +19,6 @@ function register() {
     id: id.value,
     pw: pw.value,
     name: name.value,
-    
   };
 
   console.log(req);
@@ -35,12 +33,13 @@ function register() {
     .then((res) => res.json())
     .then((res) => {
       if (res.success) {
+        alert("회원가입 성공");
         location.href = "/login";
       } else {
         alert(res.msg);
       }
     })
     .catch((err) => {
-      console.error(new Error("로그인중 에러 발생"));
+      console.error(new Error("회원가입중 에러 발생"));
     });
 }
