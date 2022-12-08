@@ -8,11 +8,11 @@ class User {
 
   async login() {
     const client = this.body;
-    console.log("2 :", await UserStorage.getuserInfo(client.id));
-    const { id, pw } = await UserStorage.getuserInfo(client.id);
-
-    if (id) {
-      if (id === client.id && pw === client.pw) {
+    console.log(client);
+    const user = await UserStorage.getuserInfo(client.id);
+    console.log(user);
+    if (user) {
+      if (user.id === client.id && user.pw === client.pw) {
         return { success: true };
       }
       return { success: false, msg: "비밀번호가 틀렸습니다." };

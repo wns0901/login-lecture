@@ -29,15 +29,43 @@ class UserStorage {
   static getUsers(isAll, ...fields) {}
 
   static getuserInfo(id) {
+    // console.log(id);
     return new Promise((resolve, reject) => {
       db.query("SELECT * FROM users WHERE id = ?", [id], (err, data) => {
-        if (err) reject(err);
-        console.log("1 :", data[0]);
+        if (err) {
+          reject(err);
+        }
         resolve(data[0]);
       });
     });
   }
 
-  static async save(userInfo) {}
+  static async save(userInfo) {
+    console.log(userInfo.id);
+    const isIn = await new Promise((resolve, reject) => {
+      db.query("SELECT * FROM users", (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        const arr = [];
+        data.forEach((data) => {
+          arr.push(data.id);
+        });
+
+        resolve(arr.includes(userInfo.id));
+      });
+    });
+
+    if (!isIn) {
+      db.query("INSERT INTO users (id, name, pw) VALUES(?, ?, ?)", [
+        userInfo.id,
+        userInfo.name,
+        userInfo.pw,
+      ]);
+      return { success: true };
+    } else {
+      return { success: false, msg: "이미 존재하는 아이디 입니다." };
+    }
+  }
 }
 module.exports = UserStorage;
