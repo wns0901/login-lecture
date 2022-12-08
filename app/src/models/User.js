@@ -8,6 +8,7 @@ class User {
 
   async login() {
     const client = this.body;
+    console.log("2 :", await UserStorage.getuserInfo(client.id));
     const { id, pw } = await UserStorage.getuserInfo(client.id);
 
     if (id) {

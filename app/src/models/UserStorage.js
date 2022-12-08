@@ -1,5 +1,5 @@
 "use strict";
-const fs = require("fs").promises;
+const db = require("../config/db");
 
 class UserStorage {
   static #getUserInfo(data, id) {
@@ -26,37 +26,18 @@ class UserStorage {
     return newUsers;
   }
 
-  static getUsers(isAll, ...fields) {
-    return fs
-      .readFile("./src/db/users.json")
-      .then((data) => {
-        return this.#getUsers(data, isAll, fields);
-      })
-      .catch(console.error);
-  }
+  static getUsers(isAll, ...fields) {}
 
   static getuserInfo(id) {
-    return fs
-      .readFile("./src/db/users.json")
-      .then((data) => {
-        return this.#getUserInfo(data, id);
-      })
-      .catch(console.error);
-
-    // return userInfo;
+    return new Promise((resolve, reject) => {
+      db.query("SELECT * FROM users WHERE id = ?", [id], (err, data) => {
+        if (err) reject(err);
+        console.log("1 :", data[0]);
+        resolve(data[0]);
+      });
+    });
   }
 
-  static async save(userInfo) {
-    const users = await this.getUsers(true);
-    if (users.id.includes(userInfo.id)) {
-      throw "이미 존재하는 아이디입니다.";
-    }
-    users.id.push(userInfo.id);
-    users.name.push(userInfo.name);
-    users.pw.push(userInfo.pw);
-    fs.writeFile("./src/db/users.json", JSON.stringify(users));
-    return { success: true };
-    users.name.push(userInfo.name);
-  }
+  static async save(userInfo) {}
 }
 module.exports = UserStorage;
