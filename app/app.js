@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 //라우터
 const home = require("./src/routes/home");
-const PORT = 3000;
 
 //앱 세팅
 app.set("views", "./src/views");

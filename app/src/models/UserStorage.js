@@ -3,7 +3,6 @@ const db = require("../config/db");
 
 class UserStorage {
   static #getUserInfo(data, id) {
-    // console.log(JSON.parse(data));
     const users = JSON.parse(data);
     const idx = users.id.indexOf(id);
     const userInfo = Object.keys(users).reduce((newUser, info) => {
@@ -29,7 +28,6 @@ class UserStorage {
   static getUsers(isAll, ...fields) {}
 
   static getuserInfo(id) {
-    // console.log(id);
     return new Promise((resolve, reject) => {
       db.query("SELECT * FROM users WHERE id = ?", [id], (err, data) => {
         if (err) {
@@ -41,7 +39,6 @@ class UserStorage {
   }
 
   static async save(userInfo) {
-    console.log(userInfo.id);
     const isIn = await new Promise((resolve, reject) => {
       db.query("SELECT * FROM users", (err, data) => {
         if (err) {

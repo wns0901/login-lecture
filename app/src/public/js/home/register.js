@@ -7,7 +7,6 @@ const id = document.querySelector("#id"),
   registerbtn = document.querySelector("#button");
 
 registerbtn.addEventListener("click", register);
-console.log("헬로 레지스터");
 
 function register() {
   if (!id.value) return alert("아이디를 입력해주십시오.");
@@ -20,8 +19,6 @@ function register() {
     pw: pw.value,
     name: name.value,
   };
-
-  console.log(req);
 
   fetch("/register", {
     method: "POST",

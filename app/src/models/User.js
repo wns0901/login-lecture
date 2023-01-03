@@ -8,9 +8,7 @@ class User {
 
   async login() {
     const client = this.body;
-    console.log(client);
     const user = await UserStorage.getuserInfo(client.id);
-    console.log(user);
     if (user) {
       if (user.id === client.id && user.pw === client.pw) {
         return { success: true };
